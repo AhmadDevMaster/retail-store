@@ -1,0 +1,22 @@
+server:
+  port: 9090
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: users
+      port: 27017
+      host: ${MONGO-HOST}
+  application:
+    name: auth-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${SERVICE-DISCOVERY-HOST}:8761/eureka
+
+logging:
+  level:
+    com.retail.auth: TRACE
+    org.springframework.security: TRACE

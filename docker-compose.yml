@@ -1,0 +1,66 @@
+version: "3.8"
+services:
+    mongodb:
+        image: mongo
+        container_name: mongodb
+        ports: 
+            - 27017:27017
+        volumes:
+            - ./db-init.js:/docker-entrypoint-initdb.d/db-init.js
+        environment: 
+            - MONGO_INITDB_ROOT_USERNAME=rootuser
+            - MONGO_INITDB_ROOT_PASSWORD=rootpass
+            
+    mongo-express:
+        image: mongo-express
+        container_name: mongo-express
+        restart: always
+        ports:
+            - 8081:8081
+        environment:
+            - ME_CONFIG_MONGODB_ADMINUSERNAME=rootuser
+            - ME_CONFIG_MONGODB_ADMINPASSWORD=rootpass
+            - ME_CONFIG_MONGODB_SERVER=mongodb
+    api-gateway:
+        build:
+          context: ./APIGateway
+        container_name: api-gateway
+        ports:
+          - "8085:8085"
+        depends_on:
+          - service-discovery
+        environment:
+          - SERVICE-DISCOVERY-HOST=service-discovery
+    service-discovery:
+        build:
+          context: ./ServiceDiscovery
+        container_name: service-discovery
+        ports:
+          - "8761:8761"
+    auth-service:
+        build:
+          context: ./AuthService
+        container_name: auth-service
+        ports:
+          - "9090:9090"
+        depends_on:
+          - service-discovery
+          - api-gateway
+        environment:
+          - SERVICE-DISCOVERY-HOST=service-discovery
+          - MONGO-HOST=mongodb
+    discount-service:
+        build:
+          context: ./DiscountService
+        container_name: discount-service
+        ports:
+          - "9091:9091"
+        depends_on:
+          - service-discovery
+          - api-gateway
+          - auth-service
+        environment:
+          - SERVICE-DISCOVERY-HOST=service-discovery
+          - MONGO-HOST=mongodb          
+volumes:
+  data:

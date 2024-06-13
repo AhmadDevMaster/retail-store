@@ -1,0 +1,24 @@
+server:
+  port: 9090
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: users
+      port: 27017
+      host: localhost
+  application:
+    name: auth-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.*: INFO
+    com.d360.*: TRACE

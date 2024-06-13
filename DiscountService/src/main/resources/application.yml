@@ -1,0 +1,21 @@
+server:
+  port: 9091
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: payments
+      port: 27017
+      host: ${MONGO-HOST}
+  application:
+    name: discount-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://${SERVICE-DISCOVERY-HOST}:8761/eureka
+      
+logging:
+  level:
+    com.retail.discount: TRACE

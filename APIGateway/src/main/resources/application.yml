@@ -1,0 +1,29 @@
+server:
+  port: 8085
+
+management:
+  endpoint:
+    gateway:
+      enabled: true
+spring:
+    application:
+      name: retail-gateway
+    cloud: # allow api gateway to see all services by service discovery
+      gateway:
+        discovery:
+          locator:
+            enabled: true
+        routes:
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
+          predicates:
+          - Path=/api/v1/auth/**
+        - id: discount-service
+          uri: lb://DISCOUNT-SERVICE
+          predicates:
+          - Path=/api/v1/bills/discount/**
+
+eureka:
+    client:
+      service-url:
+        defaultZone: http://${SERVICE-DISCOVERY-HOST}:8761/eureka

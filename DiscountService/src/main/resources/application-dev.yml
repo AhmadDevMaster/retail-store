@@ -1,0 +1,24 @@
+server:
+  port: 9091
+spring:
+  data:
+    mongodb:
+      authentication-database: admin
+      username: rootuser
+      password: rootpass
+      database: payments
+      port: 27017
+      host: localhost
+  application:
+    name: discount-service
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    prefer-ip-address: true
+
+logging:
+  level:
+    org.springframework.*: INFO
+    com.d360.*: TRACE

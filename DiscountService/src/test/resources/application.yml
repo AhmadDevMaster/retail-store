@@ -1,0 +1,5 @@
+#Disable discovery
+spring:
+  cloud:
+    discovery:
+      enabled: false
