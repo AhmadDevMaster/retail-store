@@ -1,0 +1,5 @@
+/.idea/
+/APIGateway/target/
+/DiscountService/
+/ServiceDiscovery/
+/AuthService/target/
